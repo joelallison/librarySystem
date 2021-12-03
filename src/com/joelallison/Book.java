@@ -2,8 +2,8 @@ package com.joelallison;
 
 public class Book {
     private String title;
-    private String isbn;
     private String author;
+    private String isbn;
     private String genre;
     private boolean outOfLib;
 
@@ -11,7 +11,7 @@ public class Book {
 
     }
 
-    public Book(String title, String isbn, String author, String genre) {
+    public Book(String title, String author, String isbn, String genre, boolean outOfLib) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;

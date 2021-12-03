@@ -49,7 +49,8 @@ public class Main {
             Scanner myReader = new Scanner(libFile);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-
+                String[] dataArray = data.split("`");
+                library.add(new Book(dataArray[0], dataArray[1], dataArray[2], dataArray[3], Boolean.valueOf(dataArray[4])));
             }
             myReader.close();
         } catch (FileNotFoundException e) {
@@ -66,7 +67,7 @@ public class Main {
 
     public static boolean menu() {
         boolean running = true;
-        System.out.println("Options --> { Add book(s) [a], Edit a book's information [e], Take out a book [t], Return a book [r] , Quit the program [q] }\n");
+        System.out.println("Options --> { Add book(s) [a], Edit a book's information [e], Take out a book [t], Return a book [r], List the library [l], Quit the program [q] }\n");
         String choice = getInput().toLowerCase(Locale.ROOT);
         switch (choice) {
             case "a":
@@ -75,6 +76,9 @@ public class Main {
             case "e":
                 findBook();
                 editBook(new Book());
+                break;
+            case "l":
+                listLib();
                 break;
             case "q":
                 running = false;
@@ -124,16 +128,39 @@ public class Main {
     }
 
     public static Book findBook(){
+        System.out.println("What property do you want to use to search for the book? [title, author, isbn, genre, status]"); //I figure it's somewhat useful to be able to sort by books that are actually available to take out
+        String choice = getInput();
+        switch(choice){
+            case "title":
+                break;
+            case "author":
+                break;
+            case "isbn":
+                break;
+            case "genre":
+                break;
+            case "status":
+                break;
+            default:
+                System.out.println("That's not a valid option...");
+        }
 
         //"if(book.getIsbn().equals(xxxxx))"
         return new Book(); //change this
+    }
+
+    public static void listLib(){
+        for (Book b:library) {
+            System.out.print(( b.isOutOfLib() ? 1 : 0 )); //true is 1, false is 0
+            System.out.println("    " + b.getTitle() + " by " + b.getAuthor() + " --> ISBN: " + b.getIsbn() + ", " + b.getGenre());
+        }
     }
 
     public static void updateLib(){
         for (Book b:library) {
             try {
                 FileWriter myWriter = new FileWriter(libFile.getName(), false); //True means append to file contents, False means overwrite
-                myWriter.write("`"+b.getTitle()+"`"+b.getAuthor()+"`"+b.getIsbn()+"`"+b.getGenre()+"`"+b.isOutOfLib());
+                myWriter.write(b.getTitle()+"`"+b.getAuthor()+"`"+b.getIsbn()+"`"+b.getGenre()+"`"+b.isOutOfLib());
                 myWriter.close();
             } catch (IOException e) {
                 System.out.println("An error occurred.");

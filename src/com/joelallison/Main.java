@@ -22,7 +22,6 @@ public class Main {
         while(menu()){
             updateLib();
         }
-
     }
 
     public static String getInput(){
@@ -57,13 +56,7 @@ public class Main {
             System.out.println("An error occured.");
             e.printStackTrace();
         }
-
     }
-
-    /*public static Book txtToBook(String txt){
-
-        return (studentID + "," + studentName + "," + studentEmail);
-    }*/
 
     public static boolean menu() {
         boolean running = true;
@@ -127,19 +120,74 @@ public class Main {
         
     }
 
+    public static boolean bookExists(Book book){
+        for (Book b:library) {
+            if(book.getTitle().equals(b.getTitle()) && book.getAuthor().equals(b.getAuthor()) && book.getIsbn().equals(b.getIsbn()) && book.getGenre().equals(b.getGenre()) && book.isOutOfLib()==b.isOutOfLib()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static Book findBook(){
+        int count = 0;
         System.out.println("What property do you want to use to search for the book? [title, author, isbn, genre, status]"); //I figure it's somewhat useful to be able to sort by books that are actually available to take out
-        String choice = getInput();
-        switch(choice){
+        String userInput = getInput();
+        switch(userInput){
             case "title":
+                System.out.println("What's the book called?");
+                userInput = getInput();
+                for (Book b: library) {
+                    if(b.getTitle().equalsIgnoreCase(userInput)){
+                        System.out.print(count + ") ");
+                        printBook(b);
+                        count++;
+                    }
+                }
                 break;
             case "author":
+                System.out.println("Who's the book written by?");
+                userInput = getInput();
+                for (Book b: library) {
+                    if(b.getAuthor().equalsIgnoreCase(userInput)){
+                        System.out.print(count + ") ");
+                        printBook(b);
+                        count++;
+                    }
+                }
                 break;
             case "isbn":
+                System.out.println("What's the book's ISBN?");
+                userInput = getInput();
+                for (Book b: library) {
+                    if(b.getIsbn().equalsIgnoreCase(userInput)){
+                        System.out.print(count + ") ");
+                        printBook(b);
+                        count++;
+                    }
+                }
                 break;
             case "genre":
+                System.out.println("What genre is the book?");
+                userInput = getInput();
+                for (Book b: library) {
+                    if(b.getGenre().equalsIgnoreCase(userInput)){
+                        System.out.print(count + ") ");
+                        printBook(b);
+                        count++;
+                    }
+                }
                 break;
             case "status":
+                System.out.println("The book is out of the library? [true/false]");
+                userInput = getInput();
+                for (Book b: library) {
+                    if(String.valueOf(b.isOutOfLib()).equalsIgnoreCase(userInput)){
+                        System.out.print(count + ") ");
+                        printBook(b);
+                        count++;
+                    }
+                }
                 break;
             default:
                 System.out.println("That's not a valid option...");
@@ -151,16 +199,21 @@ public class Main {
 
     public static void listLib(){
         for (Book b:library) {
-            System.out.print(( b.isOutOfLib() ? 1 : 0 )); //true is 1, false is 0
-            System.out.println("    " + b.getTitle() + " by " + b.getAuthor() + " --> ISBN: " + b.getIsbn() + ", " + b.getGenre());
+            printBook(b);
         }
+    }
+
+    public static void printBook(Book b){
+        System.out.print(( b.isOutOfLib() ? 1 : 0 )); //true is 1, false is 0
+        System.out.println("    " + b.getTitle() + " by " + b.getAuthor() + " --> ISBN: " + b.getIsbn() + ", " + b.getGenre());
     }
 
     public static void updateLib(){
         for (Book b:library) {
+            System.out.println(b.getTitle() + " added.");
             try {
-                FileWriter myWriter = new FileWriter(libFile.getName(), false); //True means append to file contents, False means overwrite
-                myWriter.write(b.getTitle()+"`"+b.getAuthor()+"`"+b.getIsbn()+"`"+b.getGenre()+"`"+b.isOutOfLib());
+                FileWriter myWriter = new FileWriter(libFile.getName(), true); //True means append to file contents, False means overwrite
+                myWriter.write(b.getTitle()+"`"+b.getAuthor()+"`"+b.getIsbn()+"`"+b.getGenre()+"`"+b.isOutOfLib()+"\n");
                 myWriter.close();
             } catch (IOException e) {
                 System.out.println("An error occurred.");

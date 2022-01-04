@@ -15,7 +15,7 @@ public class User {
         this.accessLevel = accessLevel;
     }
 
-    public String hashPassword(){
+    public String hash(User user){
 
         return "";
     }

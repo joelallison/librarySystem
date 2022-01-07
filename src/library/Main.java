@@ -19,9 +19,13 @@ public class Main {
         createFile();
         getArrayFromFile();
 
-        while(menu()){
-            updateLib();
+        User currentUser = User.login();
+
+        while(menu(currentUser)){
+
         }
+        updateLib();
+
     }
 
     public static String getInput(){
@@ -58,26 +62,47 @@ public class Main {
         }
     }
 
-    public static boolean menu() {
+    public static boolean menu(User currentUser) {
         boolean running = true;
-        System.out.println("Options --> { Add book(s) [a], Edit a book's information [e], Take out a book [t], Return a book [r], List the library [l], Quit the program [q] }\n");
-        String choice = getInput().toLowerCase(Locale.ROOT);
-        switch (choice) {
-            case "a":
-                addBooks();
-                break;
-            case "e":
-                findBook();
-                editBook(new Book());
-                break;
-            case "l":
-                listLib();
-                break;
-            case "q":
-                running = false;
-                break;
+        if (currentUser.getAccessLevel() == 1){
+            System.out.println("Options --> { Add book(s) [a], Edit a book's information [e], Take out a book [t], Return a book [r], List the library [l], Quit the program [q] }\n");
+            String choice = getInput().toLowerCase(Locale.ROOT);
+            switch (choice) {
+                case "a":
+                    addBooks();
+                    break;
+                case "e":
+                    findBook();
+                    editBook(new Book());
+                    break;
+                case "l":
+                    listLib();
+                    break;
+                case "q":
+                    running = false;
+                    break;
+            }
+            return running;
+        }else{
+            System.out.println("Options --> { Add book(s) [a], Edit a book's information [e], Take out a book [t], Return a book [r], List the library [l], Quit the program [q] }\n");
+            String choice = getInput().toLowerCase(Locale.ROOT);
+            switch (choice) {
+                case "a":
+                    addBooks();
+                    break;
+                case "e":
+                    findBook();
+                    editBook(new Book());
+                    break;
+                case "l":
+                    listLib();
+                    break;
+                case "q":
+                    running = false;
+                    break;
+            }
+            return running;
         }
-        return running;
     }
 
 
@@ -211,16 +236,19 @@ public class Main {
     }
 
     public static void updateLib(){
-        for (Book b:library) {
-            System.out.println(b.getTitle() + " added.");
-            try {
-                FileWriter myWriter = new FileWriter(libFile.getName(), true); //True means append to file contents, False means overwrite
+        boolean appendOrNot = false;
+        try {
+            FileWriter myWriter = new FileWriter(libFile.getName(), appendOrNot); //True means append to file contents, False means overwrite
+            myWriter.write("");
+            appendOrNot = true;
+            for (Book b:library) {
+                System.out.println(b.getTitle() + " added.");
                 myWriter.write(b.getTitle()+"`"+b.getAuthor()+"`"+b.getIsbn()+"`"+b.getGenre()+"`"+b.isOutOfLib()+"\n");
                 myWriter.close();
-            } catch (IOException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
             }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
     }
 }

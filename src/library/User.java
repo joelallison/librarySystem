@@ -15,6 +15,10 @@ public class User {
         this.accessLevel = accessLevel;
     }
 
+    public static User login(){
+        return new User("a","b",0);
+    }
+
     public String hash(User user){
 
         return "";

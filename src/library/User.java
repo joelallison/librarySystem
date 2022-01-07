@@ -1,4 +1,4 @@
-package com.joelallison;
+package library;
 
 public class User {
     private String name;

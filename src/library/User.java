@@ -3,7 +3,7 @@ package library;
 public class User {
     private String name;
     private String password;
-    private int accessLevel;
+    private int accessLevel; //0 is typical borrower, 1 is admin
 
     public User(){
 

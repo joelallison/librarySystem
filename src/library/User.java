@@ -1,40 +1,75 @@
 package library;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class User {
-    private String name;
+    private String username; //unique
     private String password;
     private int accessLevel; //0 is typical borrower, 1 is admin
+    
 
-    public User(){
-
-    }
-
-    public User(String name, String password, int accessLevel){
-        this.name = name;
-        this.password = name;
+    public User(String username, String password, int accessLevel){
+        this.username = username;
+        this.password = password;
         this.accessLevel = accessLevel;
+
     }
 
     public static User login(){
-        return new User("a","b",0);
+
+        System.out.println("Please enter your username:\n----> ");
+        String username = basicUtil.getInput();
+        System.out.println("And your password:\n----> ");
+        String password = basicUtil.getInput();
+
+
+
+        return new User(username, hash(password),0);
     }
 
-    public String hash(User user){
+    private boolean checkForUser(){
 
-        return "";
+        return false;
     }
 
-    public boolean comparePassword(){
+    public static String hash(String password){
+        String hashedPassword = "";
+        //credit to 'howtodoinjava.com' for this method (but I did make sure I understood what was happening)
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
 
+            md.update(password.getBytes());
+
+            byte[] bytes = md.digest();
+
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+
+            hashedPassword = sb.toString();
+
+        } catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
+
+        return hashedPassword;
+    }
+
+    public boolean comparePassword(User user){
+        
         return true;
     }
 
-    public String getName() {
-        return name;
+
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

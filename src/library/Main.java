@@ -28,11 +28,6 @@ public class Main {
 
     }
 
-    public static String getInput(){
-        Scanner input = new Scanner(System.in);
-        return input.nextLine();
-    }
-
     public static void createFile() {
         System.out.println("Checking file...");
         try {
@@ -66,7 +61,7 @@ public class Main {
         boolean running = true;
         if (currentUser.getAccessLevel() == 1){
             System.out.println("Options --> { Add book(s) [a], Edit a book's information [e], Take out a book [t], Return a book [r], List the library [l], Quit the program [q] }\n");
-            String choice = getInput().toLowerCase(Locale.ROOT);
+            String choice = basicUtil.getInput().toLowerCase(Locale.ROOT);
             switch (choice) {
                 case "a":
                     addBooks();
@@ -85,7 +80,7 @@ public class Main {
             return running;
         }else{
             System.out.println("Options --> { Add book(s) [a], Edit a book's information [e], Take out a book [t], Return a book [r], List the library [l], Quit the program [q] }\n");
-            String choice = getInput().toLowerCase(Locale.ROOT);
+            String choice = basicUtil.getInput().toLowerCase(Locale.ROOT);
             switch (choice) {
                 case "a":
                     addBooks();
@@ -114,7 +109,7 @@ public class Main {
             boolean valid = false;
             while(!valid){
                 System.out.println("Do you want to add a new book? [y/n]");
-                String choice = getInput();
+                String choice = basicUtil.getInput();
                 if (choice.equalsIgnoreCase("n")){
                     addingBooks = false;
                     valid = true;
@@ -131,14 +126,14 @@ public class Main {
         Book book = new Book();
         book.setOutOfLib(false);
 
-        System.out.println("For each of the following, if you don't know the value please enter '[null]'.\n\nWhat's the book's title?");
-        book.setTitle(getInput());
+        System.out.println("For each of the following, if you don't know the value please enter '-'.\n\nWhat's the book's title?");
+        book.setTitle(basicUtil.getInput());
         System.out.println("Who's the book written by?");
-        book.setAuthor(getInput());
+        book.setAuthor(basicUtil.getInput());
         System.out.println("What's the book's isbn?");
-        book.setIsbn(getInput());
+        book.setIsbn(basicUtil.getInput());
         System.out.println("What genre is the book?");
-        book.setGenre(getInput());
+        book.setGenre(basicUtil.getInput());
 
         return book;
     }
@@ -159,11 +154,11 @@ public class Main {
     public static Book findBook(){
         int count = 0;
         System.out.println("What property do you want to use to search for the book? [title, author, isbn, genre, status]"); //I figure it's somewhat useful to be able to sort by books that are actually available to take out
-        String userInput = getInput();
+        String userInput = basicUtil.getInput();
         switch(userInput){
             case "title":
                 System.out.println("What's the book called?");
-                userInput = getInput();
+                userInput = basicUtil.getInput();
                 for (Book b: library) {
                     if(b.getTitle().equalsIgnoreCase(userInput)){
                         System.out.print(count + ") ");
@@ -174,7 +169,7 @@ public class Main {
                 break;
             case "author":
                 System.out.println("Who's the book written by?");
-                userInput = getInput();
+                userInput = basicUtil.getInput();
                 for (Book b: library) {
                     if(b.getAuthor().equalsIgnoreCase(userInput)){
                         System.out.print(count + ") ");
@@ -185,7 +180,7 @@ public class Main {
                 break;
             case "isbn":
                 System.out.println("What's the book's ISBN?");
-                userInput = getInput();
+                userInput = basicUtil.getInput();
                 for (Book b: library) {
                     if(b.getIsbn().equalsIgnoreCase(userInput)){
                         System.out.print(count + ") ");
@@ -196,7 +191,7 @@ public class Main {
                 break;
             case "genre":
                 System.out.println("What genre is the book?");
-                userInput = getInput();
+                userInput = basicUtil.getInput();
                 for (Book b: library) {
                     if(b.getGenre().equalsIgnoreCase(userInput)){
                         System.out.print(count + ") ");
@@ -207,7 +202,7 @@ public class Main {
                 break;
             case "status":
                 System.out.println("The book is out of the library? [true/false]");
-                userInput = getInput();
+                userInput = basicUtil.getInput();
                 for (Book b: library) {
                     if(String.valueOf(b.isOutOfLib()).equalsIgnoreCase(userInput)){
                         System.out.print(count + ") ");
@@ -236,16 +231,16 @@ public class Main {
     }
 
     public static void updateLib(){
-        boolean appendOrNot = false;
         try {
-            FileWriter myWriter = new FileWriter(libFile.getName(), appendOrNot); //True means append to file contents, False means overwrite
-            myWriter.write("");
-            appendOrNot = true;
+            FileWriter overwriter = new FileWriter(libFile.getName(), false); //True means append to file contents, False means overwrite
+            overwriter.write("");
+            overwriter.close();
+            FileWriter myWriter = new FileWriter(libFile.getName(), true);
             for (Book b:library) {
                 System.out.println(b.getTitle() + " added.");
                 myWriter.write(b.getTitle()+"`"+b.getAuthor()+"`"+b.getIsbn()+"`"+b.getGenre()+"`"+b.isOutOfLib()+"\n");
-                myWriter.close();
             }
+            myWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();

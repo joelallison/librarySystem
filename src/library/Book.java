@@ -19,7 +19,7 @@ public class Book {
         this.outOfLib = false;
     }
 
-    public String toText(){ return (getTitle() +"`"+ getAuthor() +"`"+ getIsbn() +"`"+ getGenre() +"`"+ isOutOfLib() +"\n"); }
+    public String toText(){ return (title +"`"+ author +"`"+isbn +"`"+ genre +"`"+ outOfLib +"\n"); }
 
     public String getTitle() {
         return title;

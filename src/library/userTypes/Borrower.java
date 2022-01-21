@@ -1,6 +1,7 @@
 package library.userTypes;
 
 import library.Book;
+import library.Main;
 import library.User;
 import library.basicUtil;
 
@@ -21,20 +22,19 @@ public class Borrower extends library.User{
         String choice = basicUtil.getInput().toLowerCase(Locale.ROOT);
         switch (choice) {
             case "b":
-                addBooks();
+                Main.addBooks();
                 break;
             case "e":
-                findBook();
-                editBook(new Book());
+                Main.findBook();
+                Main.editBook(new Book());
                 break;
             case "l":
-                listLib();
+                Main.listLib();
                 break;
             case "q":
                 running = false;
                 break;
         }
-        return running;
     }
 
     public void addBook(Book book){ this.Books.add(book); }

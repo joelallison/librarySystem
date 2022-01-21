@@ -56,30 +56,6 @@ public class Main {
         }
     }
 
-    public static boolean menu(User currentUser) {
-        boolean running = true;
-        System.out.println("Options --> { Add book(s) [a], Edit a book's information [e], Take out a book [t], Return a book [r], List the library [l], Quit the program [q] }\n");
-            String choice = basicUtil.getInput().toLowerCase(Locale.ROOT);
-            switch (choice) {
-                case "a":
-                    addBooks();
-                    break;
-                case "e":
-                    findBook();
-                    editBook(new Book());
-                    break;
-                case "l":
-                    listLib();
-                    break;
-                case "q":
-                    running = false;
-                    break;
-            }
-            return running;
-    }
-
-
-
     public static void addBooks() {
         boolean addingBooks = true;
         while(addingBooks){

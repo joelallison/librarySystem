@@ -4,33 +4,22 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class User {
-    private String username; //unique
-    private String password;
-    private int accessLevel; //0 is typical borrower, 1 is admin
-    
+    protected String username; //unique
+    protected String password;
 
     public User(String username, String password, int accessLevel){
         this.username = username;
         this.password = password;
-        this.accessLevel = accessLevel;
 
     }
 
     public static User login(){
-
         System.out.println("Please enter your username:\n----> ");
         String username = basicUtil.getInput();
         System.out.println("And your password:\n----> ");
         String password = basicUtil.getInput();
 
-
-
         return new User(username, hash(password),0);
-    }
-
-    private boolean checkForUser(){
-
-        return false;
     }
 
     public static String hash(String password){
@@ -62,8 +51,6 @@ public class User {
         return true;
     }
 
-
-
     public String getUsername() {
         return username;
     }
@@ -78,13 +65,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int getAccessLevel() {
-        return accessLevel;
-    }
-
-    public void setAccessLevel(int accessLevel) {
-        this.accessLevel = accessLevel;
     }
 }

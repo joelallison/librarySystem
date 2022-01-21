@@ -21,9 +21,8 @@ public class Main {
 
         User currentUser = User.login();
 
-        while(menu(currentUser)){
+        currentUser.menu();
 
-        }
         updateLib();
 
     }
@@ -59,8 +58,7 @@ public class Main {
 
     public static boolean menu(User currentUser) {
         boolean running = true;
-        if (currentUser.getAccessLevel() == 1){
-            System.out.println("Options --> { Add book(s) [a], Edit a book's information [e], Take out a book [t], Return a book [r], List the library [l], Quit the program [q] }\n");
+        System.out.println("Options --> { Add book(s) [a], Edit a book's information [e], Take out a book [t], Return a book [r], List the library [l], Quit the program [q] }\n");
             String choice = basicUtil.getInput().toLowerCase(Locale.ROOT);
             switch (choice) {
                 case "a":
@@ -78,26 +76,6 @@ public class Main {
                     break;
             }
             return running;
-        }else{
-            System.out.println("Options --> { Add book(s) [a], Edit a book's information [e], Take out a book [t], Return a book [r], List the library [l], Quit the program [q] }\n");
-            String choice = basicUtil.getInput().toLowerCase(Locale.ROOT);
-            switch (choice) {
-                case "a":
-                    addBooks();
-                    break;
-                case "e":
-                    findBook();
-                    editBook(new Book());
-                    break;
-                case "l":
-                    listLib();
-                    break;
-                case "q":
-                    running = false;
-                    break;
-            }
-            return running;
-        }
     }
 
 
@@ -237,8 +215,8 @@ public class Main {
             overwriter.close();
             FileWriter myWriter = new FileWriter(libFile.getName(), true);
             for (Book b:library) {
-                System.out.println(b.getTitle() + " added.");
-                myWriter.write(b.getTitle()+"`"+b.getAuthor()+"`"+b.getIsbn()+"`"+b.getGenre()+"`"+b.isOutOfLib()+"\n");
+                System.out.println("'" + b.getTitle() + "' added.");
+                myWriter.write(b.toText());
             }
             myWriter.close();
         } catch (IOException e) {
